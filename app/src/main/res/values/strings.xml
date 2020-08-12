@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Quiz App</string>
+
+    <!--BottomNavigationMenu-->
+    <string name="bottomNavigation_explore">Explore</string>
+    <string name="bottomNavigation_map">Map</string>
+    <string name="bottomNavigation_settings">Settings</string>
+
+    <!--MainFragment-->
+    <string name="contentDescription_main_image_AR">Image AR</string>
+    <string name="text_main_questions_amount">Questions amounts:</string>
+    <string name="text_main_questions_amount_inNumbers">0</string>
+    <string name="text_main_category">Category</string>
+    <string name="text_main_difficulty">Difficulty</string>
+    <string name="button_main_start">Start</string>
+    <string name="textTitle_main_quiz">Quiz</string>
+    <string name="textTitle_main_history">History</string>
+    <string name="textTitle_main_settings">Settings</string>
+
+
+</resources>
