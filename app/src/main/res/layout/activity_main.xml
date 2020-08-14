@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.viewpager.widget.ViewPager
+    <com.example.quiz.widgets.NonScrollableViewPager
         android:id="@+id/viewPager_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -17,11 +17,10 @@
         android:id="@+id/bottomNavigation_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/White"
         android:outlineAmbientShadowColor="@color/Nothing"
         android:outlineSpotShadowColor="@color/Nothing"
         app:itemIconTint="@drawable/bottom_navigation_item"
-        app:itemRippleColor="@color/GrayishViolet"
         app:itemTextColor="@drawable/bottom_navigation_item"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"

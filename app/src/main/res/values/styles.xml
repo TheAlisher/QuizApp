@@ -4,18 +4,49 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowFullscreen">true</item>
         <item name="titleTextColor">@color/Black</item>
-        <item name="android:background">@color/White</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.MaterialComponents.NoActionBar.Bridge">
         <item name="android:windowBackground">@drawable/activity_splash_screen</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <!--MainFragment-->
+
     <style name="TextHintMainStyle">
         <item name="android:textColor">@color/Gray</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--HistoryFragment-->
+
+    <!-- | list_history_item-->
+    <style name="TextHistoryCategory">
+        <item name="android:textColor">@color/VeryDarkDesaturatedBlue</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextHistoryCorrectAnswersAndDifficulty">
+        <item name="android:textColor">@color/Gray</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!--SettingsFragment-->
+
+    <style name="ViewDividerStyle">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:background">@color/Gray</item>
+    </style>
+
+    <style name="TextSettingsStyle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
 

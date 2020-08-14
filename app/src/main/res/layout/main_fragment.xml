@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/White"
     android:orientation="vertical"
     android:padding="40dp"
     tools:context=".ui.main.MainFragment">
@@ -43,8 +44,8 @@
         android:id="@+id/slider_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:labelBehavior="gone"
         app:haloRadius="15dp"
+        app:labelBehavior="gone"
         app:thumbColor="@color/BrightViolet"
         app:trackColorActive="@color/BrightViolet"
         app:trackColorInactive="@color/OtherGrayishViolet" />
