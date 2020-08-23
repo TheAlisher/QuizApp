@@ -14,10 +14,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.adapters.MainPagerAdapter;
+import com.example.quiz.data.remote.IQuizAPIClient;
+import com.example.quiz.models.Question;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.List;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,16 +38,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initializationViews();
         createMainBottomNavigationWithViewPager();
     }
 
-    private void initializationViews() {
+    private void createMainBottomNavigationWithViewPager() {
         viewPager = findViewById(R.id.viewPager_main);
         bottomNavigationView = findViewById(R.id.bottomNavigation_main);
-    }
-
-    private void createMainBottomNavigationWithViewPager() {
         viewPager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
         viewPager.setOffscreenPageLimit(2);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {

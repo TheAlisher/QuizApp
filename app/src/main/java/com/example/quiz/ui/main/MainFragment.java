@@ -12,22 +12,35 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
+import com.example.quiz.data.remote.IQuizAPIClient;
+import com.example.quiz.models.Question;
+import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
+
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
 
-    private Slider slider;
+    private Slider sliderAmount;
     private Spinner spinnerCategory;
     private Spinner spinnerDifficulty;
     private Button buttonStart;
+
+    private int sliderAmountSelectedValue = 1;
+    private String spinnerCategorySelectedValue = null;
+    private String spinnerDifficultySelectedValue = null;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -58,6 +71,9 @@ public class MainFragment extends Fragment {
         initializationViews(view);
         createSpinner(spinnerCategory, R.array.spinner_category);
         createSpinner(spinnerDifficulty, R.array.spinner_difficulty);
+        getSelectedValueSliderAmount();
+        getSelectedValueSpinnerCategory();
+        getSelectedValueSpinnerDifficulty();
 
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +84,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initializationViews(View view) {
-        slider = view.findViewById(R.id.slider_main);
+        sliderAmount = view.findViewById(R.id.slider_main);
         spinnerCategory = view.findViewById(R.id.spinner_main_category);
         spinnerDifficulty = view.findViewById(R.id.spinner_main_difficulty);
         buttonStart = view.findViewById(R.id.button_main_start);
@@ -82,7 +98,58 @@ public class MainFragment extends Fragment {
         spinner.setAdapter(adapter);
     }
 
-    private void mainStartClick() {
+    private void getSelectedValueSliderAmount() {
+        sliderAmount.addOnChangeListener(new Slider.OnChangeListener() {
+            @Override
+            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+                sliderAmountSelectedValue = (int) slider.getValue();
+            }
+        });
+    }
 
+    private void getSelectedValueSpinnerCategory() {
+        spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spinnerCategorySelectedValue = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void getSelectedValueSpinnerDifficulty() {
+        spinnerDifficulty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spinnerDifficultySelectedValue = adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void mainStartClick() {
+        QuizApp.quizAPIClient.getQuestions(
+                sliderAmountSelectedValue,
+                spinnerCategorySelectedValue,
+                spinnerDifficultySelectedValue,
+                new IQuizAPIClient.QuestionsCallback() {
+                    @Override
+                    public void onSuccess(List<Question> questions) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception exception) {
+
+                    }
+                });
     }
 }
