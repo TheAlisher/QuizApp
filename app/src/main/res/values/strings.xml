@@ -16,13 +16,13 @@
     <string name="textTitle_main_quiz">Quiz</string>
     <string name="textTitle_main_history">History</string>
     <string name="textTitle_main_settings">Settings</string>
-    
+
     <!--HistoryFragment-->
     <string name="text_history_category">Category:</string>
     <string name="text_history_correct_answers">Correct answers:</string>
     <string name="text_history_difficulty">Difficulty:</string>
     <string name="contentDescription_history_icon_menu_three_dots_horizontal">Icon menu</string>
-    
+
     <!--SettingsFragment-->
     <string name="text_settings_share_this_app">Share this app</string>
     <string name="text_settings_rate_us">Rate us</string>

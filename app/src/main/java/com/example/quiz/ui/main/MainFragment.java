@@ -3,6 +3,7 @@ package com.example.quiz.ui.main;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.data.remote.IQuizAPIClient;
 import com.example.quiz.models.Question;
+import com.example.quiz.ui.quiz.QuizActivity;
 import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
 
@@ -140,20 +142,10 @@ public class MainFragment extends Fragment {
     }
 
     private void mainStartClick() {
-        QuizApp.quizAPIClient.getQuestions(
-                sliderAmountSelectedValue,
-                spinnerCategorySelectedValue,
-                spinnerDifficultySelectedValue,
-                new IQuizAPIClient.QuestionsCallback() {
-                    @Override
-                    public void onSuccess(List<Question> questions) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Exception exception) {
-
-                    }
-                });
+        Intent intent = new Intent(getContext(), QuizActivity.class);
+        intent.putExtra(QuizActivity.EXTRA_SLIDER_VALUES, sliderAmountSelectedValue);
+        intent.putExtra(QuizActivity.EXTRA_SPINNER_CATEGORY_VALUES, spinnerCategorySelectedValue);
+        intent.putExtra(QuizActivity.EXTRA_SPINNER_DIFFICULTY_VALUES, spinnerDifficultySelectedValue);
+        startActivity(intent);
     }
 }
