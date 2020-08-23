@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quiz.QuizApp;
@@ -33,6 +34,7 @@ public class MainFragment extends Fragment {
 
     private MainViewModel mViewModel;
 
+    private TextView textQuestionAmounts;
     private Slider sliderAmount;
     private Spinner spinnerCategory;
     private Spinner spinnerDifficulty;
@@ -84,6 +86,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initializationViews(View view) {
+        textQuestionAmounts = view.findViewById(R.id.text_main_question_amounts);
         sliderAmount = view.findViewById(R.id.slider_main);
         spinnerCategory = view.findViewById(R.id.spinner_main_category);
         spinnerDifficulty = view.findViewById(R.id.spinner_main_difficulty);
@@ -103,6 +106,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
                 sliderAmountSelectedValue = (int) slider.getValue();
+                textQuestionAmounts.setText(String.valueOf(sliderAmountSelectedValue));
             }
         });
     }
