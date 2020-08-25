@@ -1,5 +1,6 @@
 package com.example.quiz.data.remote;
 
+import com.example.quiz.core.IBaseCallback;
 import com.example.quiz.models.Question;
 
 import java.util.List;
@@ -12,10 +13,12 @@ public interface IQuizAPIClient {
             String difficulty,
             QuestionsCallback callback);
 
-    interface QuestionsCallback {
+    interface QuestionsCallback extends IBaseCallback<List<Question>> {
 
-        void onSuccess(List<Question> questions);
+        @Override
+        void onSuccess(List<Question> result);
 
+        @Override
         void onFailure(Exception exception);
     }
 }

@@ -1,7 +1,10 @@
 package com.example.quiz.ui.quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -18,6 +21,16 @@ public class QuizActivity extends AppCompatActivity {
     public static final String EXTRA_SPINNER_CATEGORY_VALUES = "spinner_category_value";
     public static final String EXTRA_SPINNER_DIFFICULTY_VALUES = "spinner_difficulty_value";
 
+    public static void start(Context context, int amount, String category, String difficulty) {
+        Intent intent = new Intent(context, QuizActivity.class);
+        intent.putExtra(EXTRA_SLIDER_VALUES, amount);
+        intent.putExtra(EXTRA_SPINNER_CATEGORY_VALUES, category);
+        intent.putExtra(EXTRA_SPINNER_DIFFICULTY_VALUES, difficulty);
+        context.startActivity(intent);
+    }
+
+    private QuizViewModel mViewModel;
+
     private int sliderAmountSelectedValue;
     private String spinnerCategorySelectedValue;
     private String spinnerDifficultySelectedValue;
@@ -27,7 +40,10 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        mViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
         getValues();
+        mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
+
         getQuestion();
 
     }

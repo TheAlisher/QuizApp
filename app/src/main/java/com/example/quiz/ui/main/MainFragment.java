@@ -20,17 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.quiz.QuizApp;
 import com.example.quiz.R;
-import com.example.quiz.data.remote.IQuizAPIClient;
-import com.example.quiz.models.Question;
 import com.example.quiz.ui.quiz.QuizActivity;
-import com.google.android.material.slider.LabelFormatter;
 import com.google.android.material.slider.Slider;
-
-import java.text.NumberFormat;
-import java.util.Currency;
-import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -89,7 +81,7 @@ public class MainFragment extends Fragment {
 
     private void initializationViews(View view) {
         textQuestionAmounts = view.findViewById(R.id.text_main_question_amounts);
-        sliderAmount = view.findViewById(R.id.slider_main);
+        sliderAmount = view.findViewById(R.id.slider_main_amount);
         spinnerCategory = view.findViewById(R.id.spinner_main_category);
         spinnerDifficulty = view.findViewById(R.id.spinner_main_difficulty);
         buttonStart = view.findViewById(R.id.button_main_start);
@@ -142,10 +134,6 @@ public class MainFragment extends Fragment {
     }
 
     private void mainStartClick() {
-        Intent intent = new Intent(getContext(), QuizActivity.class);
-        intent.putExtra(QuizActivity.EXTRA_SLIDER_VALUES, sliderAmountSelectedValue);
-        intent.putExtra(QuizActivity.EXTRA_SPINNER_CATEGORY_VALUES, spinnerCategorySelectedValue);
-        intent.putExtra(QuizActivity.EXTRA_SPINNER_DIFFICULTY_VALUES, spinnerDifficultySelectedValue);
-        startActivity(intent);
+        QuizActivity.start(getContext(), sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
     }
 }
