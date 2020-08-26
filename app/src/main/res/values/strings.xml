@@ -29,5 +29,8 @@
     <string name="text_settings_leave_feedback">Leave feedback</string>
     <string name="text_settings_clear_history">Clear history</string>
 
+    <!--QuizActivity-->
+    <string name="button_skip">Skip</string>
+
 
 </resources>
