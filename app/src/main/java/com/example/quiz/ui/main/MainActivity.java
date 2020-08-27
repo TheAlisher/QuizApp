@@ -2,6 +2,7 @@ package com.example.quiz.ui.main;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(new Intent(context, MainActivity.class));
     }
 
+    private Toolbar toolbar;
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
 
@@ -38,7 +40,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setToolbar();
         createMainBottomNavigationWithViewPager();
+    }
+
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar_main);
+        toolbar.setTitle(R.string.textTitle_main_quiz);
     }
 
     private void createMainBottomNavigationWithViewPager() {
@@ -64,11 +72,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setElevation(0.0f);
-            getSupportActionBar().setTitle(R.string.textTitle_main_quiz);
-            getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.background_white));
-        }
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -80,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
                 if (getSupportActionBar() != null) {
                     switch (position) {
                         case 0:
-                            getSupportActionBar().setTitle(R.string.textTitle_main_quiz);
+                            toolbar.setTitle(R.string.textTitle_main_quiz);
                             break;
                         case 1:
-                            getSupportActionBar().setTitle(R.string.textTitle_main_history);
+                            toolbar.setTitle(R.string.textTitle_main_history);
                             break;
                         case 2:
-                            getSupportActionBar().setTitle(R.string.textTitle_main_settings);
+                            toolbar.setTitle(R.string.textTitle_main_settings);
                             break;
                     }
                 }
