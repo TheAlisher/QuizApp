@@ -17,7 +17,8 @@ public class QuestionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private ArrayList<Question> list;
     private QuestionViewHolder.Listener listener;
 
-    public QuestionAdapter(QuestionViewHolder.Listener listener) {
+    public QuestionAdapter(ArrayList<Question> list, QuestionViewHolder.Listener listener) {
+        this.list = list;
         this.listener = listener;
     }
 

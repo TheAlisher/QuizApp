@@ -8,17 +8,15 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
 
-import com.example.quiz.QuizApp;
 import com.example.quiz.R;
-import com.example.quiz.data.remote.IQuizAPIClient;
 import com.example.quiz.models.Question;
 import com.example.quiz.ui.quiz.recycler.QuestionAdapter;
 import com.example.quiz.ui.quiz.recycler.QuestionViewHolder;
@@ -46,6 +44,8 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     private String spinnerCategorySelectedValue;
     private String spinnerDifficultySelectedValue;
 
+    private Button buttonSkip;
+
     private RecyclerView recyclerView;
     private QuestionAdapter adapter;
     private ArrayList<Question> list = new ArrayList<>();
@@ -56,18 +56,31 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         setContentView(R.layout.activity_quiz);
 
         mViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
+
+        initializationViews();
         getValues();
         mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
-
         getQuestion();
         createRecycler();
+        answerClick();
+        finishQuiz();
+        buttonSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mViewModel.onSkipClick();
+            }
+        });
+    }
+
+    private void initializationViews() {
+        buttonSkip = findViewById(R.id.button_quiz_skip);
     }
 
     private void createRecycler() {
         recyclerView = findViewById(R.id.recycler_quiz);
         recyclerView.setLayoutManager(new LinearLayoutManager
                 (this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new QuestionAdapter(this);
+        adapter = new QuestionAdapter(list, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -79,13 +92,12 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
-
-        answerClick();
     }
 
     @Override
     public void onAnswerClick(int position, int selectAnswerPosition) {
         mViewModel.onAnswerClick(position, selectAnswerPosition);
+        mViewModel.getAnswers(position);
     }
 
     private void getValues() {
@@ -103,6 +115,17 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         }
     }
 
+    private void getQuestion() {
+        mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
+        mViewModel.questions.observe(this, new Observer<List<Question>>() {
+            @Override
+            public void onChanged(List<Question> questions) {
+                adapter.setQuestions(questions);
+                mViewModel.getAnswers(0);
+            }
+        });
+    }
+
     private void answerClick() {
         mViewModel.currentQuestionPosition.observe(this, new Observer<Integer>() {
             @Override
@@ -112,12 +135,11 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         });
     }
 
-    private void getQuestion() {
-        mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
-        mViewModel.questions.observe(this, new Observer<List<Question>>() {
+    private void finishQuiz() {
+        mViewModel.finish.observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(List<Question> questions) {
-                adapter.setQuestions(questions);
+            public void onChanged(Boolean aBoolean) {
+                startActivity(new Intent(this, ResultActivity.class));
             }
         });
     }

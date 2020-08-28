@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="40dp"
-    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
@@ -13,6 +12,7 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
+        android:id="@+id/linear_question_multiple"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -45,19 +45,20 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linear_question_boolean"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_true_false_1"
+            android:id="@+id/button_boolean_1"
             style="@style/ButtonQuestionStyles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_true_false_w"
+            android:id="@+id/button_boolean_2"
             style="@style/ButtonQuestionStyles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
