@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 
 public class SettingsFragment extends Fragment {
@@ -46,6 +48,12 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         initializationViews(view);
+        textClearHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickClearHistory();
+            }
+        });
     }
 
     private void initializationViews(View view) {
@@ -53,5 +61,10 @@ public class SettingsFragment extends Fragment {
         textRateUs = view.findViewById(R.id.text_settings_rate_us);
         textLeaveFeedback = view.findViewById(R.id.text_settings_leave_feedback);
         textClearHistory = view.findViewById(R.id.text_settings_clear_history);
+    }
+
+    private void clickClearHistory() {
+        QuizApp.repository.deleteAll();
+        Toast.makeText(getContext(), "История очищена", Toast.LENGTH_SHORT).show();
     }
 }

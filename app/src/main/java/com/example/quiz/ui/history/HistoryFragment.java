@@ -14,16 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.adapters.HistoryAdapter;
-import com.example.quiz.models.Result;
+import com.example.quiz.interfaces.OnItemClickListener;
+import com.example.quiz.models.History;
 
 import java.util.ArrayList;
 
 public class HistoryFragment extends Fragment {
 
     private HistoryAdapter historyAdapter;
-    private ArrayList<Result> list = new ArrayList<>();
+    private ArrayList<History> list = new ArrayList<>();
 
     private HistoryViewModel mViewModel;
 
@@ -49,6 +51,12 @@ public class HistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         createHistoryRecycler(view);
+        historyAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onHistoryItemLongClick(int position) {
+                longClickOnItem(position);
+            }
+        });
     }
 
     private void createHistoryRecycler(View view) {
@@ -56,5 +64,9 @@ public class HistoryFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         historyAdapter = new HistoryAdapter(list);
         recyclerView.setAdapter(historyAdapter);
+    }
+
+    private void longClickOnItem(int position) {
+        QuizApp.repository.delete(position);
     }
 }

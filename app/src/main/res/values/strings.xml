@@ -32,5 +32,9 @@
     <!--QuizActivity-->
     <string name="button_skip">Skip</string>
 
+    <!--ResultActivity-->
+    <string name="label_result">Result</string>
+    <string name="text_result">Result:</string>
+
 
 </resources>

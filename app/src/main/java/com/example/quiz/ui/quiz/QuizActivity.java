@@ -15,11 +15,13 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.example.quiz.R;
 import com.example.quiz.models.Question;
 import com.example.quiz.ui.quiz.recycler.QuestionAdapter;
 import com.example.quiz.ui.quiz.recycler.QuestionViewHolder;
+import com.example.quiz.ui.result.ResultActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     private String spinnerDifficultySelectedValue;
 
     private Button buttonSkip;
+    private ProgressBar progressBarLoading;
 
     private RecyclerView recyclerView;
     private QuestionAdapter adapter;
@@ -59,7 +62,6 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
 
         initializationViews();
         getValues();
-        mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
         getQuestion();
         createRecycler();
         answerClick();
@@ -74,6 +76,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
 
     private void initializationViews() {
         buttonSkip = findViewById(R.id.button_quiz_skip);
+        progressBarLoading = findViewById(R.id.progressBar_loading);
     }
 
     private void createRecycler() {
@@ -116,6 +119,16 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     }
 
     private void getQuestion() {
+        mViewModel.isLoading.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    progressBarLoading.setVisibility(View.VISIBLE);
+                } else {
+                    progressBarLoading.setVisibility(View.GONE);
+                }
+            }
+        });
         mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
         mViewModel.questions.observe(this, new Observer<List<Question>>() {
             @Override
@@ -139,7 +152,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         mViewModel.finish.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                startActivity(new Intent(this, ResultActivity.class));
+                startActivity(new Intent(getBaseContext(), ResultActivity.class));
             }
         });
     }

@@ -1,17 +1,20 @@
 package com.example.quiz.models;
 
-public class Result {
+public class History {
 
+    private int id;
     private String category;
     private int correctAnswers;
+    private int amount;
     private String difficulty;
     private int time;
 
-    public Result(String category, int correctAnswers, String difficulty, int time) {
-        this.category = category;
-        this.correctAnswers = correctAnswers;
-        this.difficulty = difficulty;
-        this.time = time;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getCategory() {
@@ -28,6 +31,14 @@ public class Result {
 
     public void setCorrectAnswers(int correctAnswers) {
         this.correctAnswers = correctAnswers;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public String getDifficulty() {
