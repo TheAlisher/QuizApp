@@ -17,5 +17,9 @@
     <color name="VeryDarkDesaturatedBlue">#1F2041</color>
     <color name="LightRed">#FF6581</color>
 
+    <color name="Schedule">#6979F8</color>
+    <color name="Right">#4CE2A7</color>
+    <color name="Wrong">#FF4D4D</color>
+
 
 </resources>

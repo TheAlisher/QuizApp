@@ -71,14 +71,26 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         setToolbar();
         initializationViews();
         getValues();
+        observeFinishQuiz();
         getQuestion();
         createRecycler();
         answerClick();
-        finishQuiz();
+        startResult();
         buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mViewModel.onSkipClick();
+            }
+        });
+    }
+
+    private void observeFinishQuiz() {
+        mViewModel.finishQuiz.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    finish();
+                }
             }
         });
     }
@@ -183,7 +195,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     }
 
     private void answerClick() {
-        mViewModel.currentQuestionPosition.observe(this, new Observer<Integer>() {
+        mViewModel.currentQuestionPosition.observe(QuizActivity.this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 recyclerView.smoothScrollToPosition(integer);
@@ -194,8 +206,8 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         });
     }
 
-    private void finishQuiz() {
-        mViewModel.finish.observe(this, new Observer<Boolean>() {
+    private void startResult() {
+        mViewModel.startResult.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 startActivity(new Intent(QuizActivity.this, ResultActivity.class));

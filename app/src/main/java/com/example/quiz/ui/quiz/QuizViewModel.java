@@ -13,8 +13,9 @@ public class QuizViewModel extends ViewModel {
 
     MutableLiveData<List<Question>> questions = new MutableLiveData<>();
     MutableLiveData<Integer> currentQuestionPosition = new MutableLiveData<>();
-    MutableLiveData<Boolean> finish = new MutableLiveData<>();
+    MutableLiveData<Boolean> startResult = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
+    MutableLiveData<Boolean> finishQuiz = new MutableLiveData<>();
 
     private List<Question> mQuestions;
 
@@ -45,7 +46,7 @@ public class QuizViewModel extends ViewModel {
             mQuestions.get(position).setSelectAnswerPosition(selectAnswerQuestion);
             questions.setValue(mQuestions);
             if (position == mQuestions.size() - 1) {
-                finishQuiz();
+                startResult();
             } else {
                 nextQuestion();
             }
@@ -56,8 +57,8 @@ public class QuizViewModel extends ViewModel {
         currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
     }
 
-    void finishQuiz() {
-        finish.setValue(true);
+    void startResult() {
+        startResult.setValue(true);
     }
 
     void onSkipClick() {
@@ -67,6 +68,12 @@ public class QuizViewModel extends ViewModel {
     void onBackPressed() {
         if (currentQuestionPosition.getValue() != null && currentQuestionPosition.getValue() > 0) {
             currentQuestionPosition.setValue(currentQuestionPosition.getValue() - 1);
+        } else {
+            finishQuiz();
         }
+    }
+
+    void finishQuiz() {
+        finishQuiz.setValue(true);
     }
 }

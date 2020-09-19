@@ -1,17 +1,21 @@
 package com.example.quiz.ui.quiz.recycler;
 
+import android.os.Handler;
 import android.text.Html;
-import android.text.Spanned;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quiz.R;
 import com.example.quiz.models.Question;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QuestionViewHolder extends RecyclerView.ViewHolder {
 
@@ -26,6 +30,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     private MaterialButton buttonBooleanAnswer2;
 
     private Listener listener;
+    private Question question;
 
     public QuestionViewHolder(@NonNull View itemView, Listener listener) {
         super(itemView);
@@ -34,37 +39,37 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         buttonMultiplyAnswer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(1);
+                answerClick(0);
             }
         });
         buttonMultiplyAnswer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(2);
+                answerClick(1);
             }
         });
         buttonMultiplyAnswer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(3);
+                answerClick(2);
             }
         });
         buttonMultiplyAnswer4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(4);
+                answerClick(3);
             }
         });
         buttonBooleanAnswer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(1);
+                answerClick(0);
             }
         });
         buttonBooleanAnswer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                answerClick(2);
+                answerClick(1);
             }
         });
     }
@@ -94,6 +99,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
             buttonBooleanAnswer1.setText(Html.fromHtml(question.getAnswers().get(0)));
             buttonBooleanAnswer2.setText(Html.fromHtml(question.getAnswers().get(1)));
         }
+        this.question = question;
     }
 
     private void multipleVisibility() {
@@ -107,7 +113,116 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void answerClick(int selectAnswerPosition) {
-        listener.onAnswerClick(getAdapterPosition(), selectAnswerPosition);
+        setScheduleColor(selectAnswerPosition);
+        Timer timer = new Timer();
+        if (question.getAnswers().get(selectAnswerPosition).equals(question.getCorrectAnswers())) {
+            setRightColor(timer, selectAnswerPosition);
+        } else {
+            setWrongColor(timer, selectAnswerPosition);
+        }
+        startNextItem(selectAnswerPosition);
+        /*setEnabledFalse();
+        setDefaultColor();*/
+    }
+
+    private void setButtonColors(MaterialButton materialButton, int strokeColor, int backgroundColor, int textColor) {
+        materialButton.setBackgroundTintList(ContextCompat.getColorStateList(materialButton.getContext(), backgroundColor));
+        materialButton.setStrokeColor(ContextCompat.getColorStateList(materialButton.getContext(), strokeColor));
+        materialButton.setTextColor(materialButton.getContext().getResources().getColor(textColor));
+    }
+
+    private void setScheduleColor(int selectAnswerPosition) {
+        switch (selectAnswerPosition) {
+            case 0:
+                setButtonColors(buttonMultiplyAnswer1, R.color.Schedule, R.color.Schedule, R.color.White);
+                setButtonColors(buttonBooleanAnswer1, R.color.Schedule, R.color.Schedule, R.color.White);
+                break;
+            case 1:
+                setButtonColors(buttonMultiplyAnswer2, R.color.Schedule, R.color.Schedule, R.color.White);
+                setButtonColors(buttonBooleanAnswer2, R.color.Schedule, R.color.Schedule, R.color.White);
+                break;
+            case 2:
+                setButtonColors(buttonMultiplyAnswer3, R.color.Schedule, R.color.Schedule, R.color.White);
+                break;
+            case 3:
+                setButtonColors(buttonMultiplyAnswer4, R.color.Schedule, R.color.Schedule, R.color.White);
+                break;
+        }
+    }
+
+    private void setRightColor(Timer timer, int selectAnswerPosition) {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                switch (selectAnswerPosition) {
+                    case 0:
+                        setButtonColors(buttonMultiplyAnswer1, R.color.Right, R.color.Right, R.color.White);
+                        setButtonColors(buttonBooleanAnswer1, R.color.Right, R.color.Right, R.color.White);
+                        break;
+                    case 1:
+                        setButtonColors(buttonMultiplyAnswer2, R.color.Right, R.color.Right, R.color.White);
+                        setButtonColors(buttonBooleanAnswer2, R.color.Right, R.color.Right, R.color.White);
+                        break;
+                    case 2:
+                        setButtonColors(buttonMultiplyAnswer3, R.color.Right, R.color.Right, R.color.White);
+                        break;
+                    case 3:
+                        setButtonColors(buttonMultiplyAnswer4, R.color.Right, R.color.Right, R.color.White);
+                        break;
+                }
+            }
+        }, 500);
+    }
+
+    private void setWrongColor(Timer timer, int selectAnswerPosition) {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                switch (selectAnswerPosition) {
+                    case 0:
+                        setButtonColors(buttonMultiplyAnswer1, R.color.Wrong, R.color.Wrong, R.color.White);
+                        setButtonColors(buttonBooleanAnswer1, R.color.Wrong, R.color.Wrong, R.color.White);
+                        break;
+                    case 1:
+                        setButtonColors(buttonMultiplyAnswer2, R.color.Wrong, R.color.Wrong, R.color.White);
+                        setButtonColors(buttonBooleanAnswer2, R.color.Wrong, R.color.Wrong, R.color.White);
+                        break;
+                    case 2:
+                        setButtonColors(buttonMultiplyAnswer3, R.color.Wrong, R.color.Wrong, R.color.White);
+                        break;
+                    case 3:
+                        setButtonColors(buttonMultiplyAnswer4, R.color.Wrong, R.color.Wrong, R.color.White);
+                        break;
+                }
+            }
+        }, 500);
+    }
+
+    private void startNextItem(int selectAnswerPosition) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                listener.onAnswerClick(getAdapterPosition(), selectAnswerPosition);
+            }
+        }, 1000);
+    }
+
+    private void setEnabledFalse() {
+        buttonMultiplyAnswer1.setEnabled(false);
+        buttonMultiplyAnswer2.setEnabled(false);
+        buttonMultiplyAnswer3.setEnabled(false);
+        buttonMultiplyAnswer4.setEnabled(false);
+        buttonBooleanAnswer1.setEnabled(false);
+        buttonBooleanAnswer2.setEnabled(false);
+    }
+
+    private void setDefaultColor() {
+        setButtonColors(buttonMultiplyAnswer1, R.color.Schedule, R.color.White, R.color.Schedule);
+        setButtonColors(buttonMultiplyAnswer2, R.color.Schedule, R.color.White, R.color.Schedule);
+        setButtonColors(buttonMultiplyAnswer3, R.color.Schedule, R.color.White, R.color.Schedule);
+        setButtonColors(buttonMultiplyAnswer4, R.color.Schedule, R.color.White, R.color.Schedule);
+        setButtonColors(buttonBooleanAnswer1, R.color.Schedule, R.color.White, R.color.Schedule);
+        setButtonColors(buttonBooleanAnswer2, R.color.Schedule, R.color.White, R.color.Schedule);
     }
 
     public interface Listener {
