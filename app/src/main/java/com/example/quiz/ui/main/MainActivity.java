@@ -80,18 +80,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (getSupportActionBar() != null) {
-                    switch (position) {
-                        case 0:
-                            toolbar.setTitle(R.string.textTitle_main_quiz);
-                            break;
-                        case 1:
-                            toolbar.setTitle(R.string.textTitle_main_history);
-                            break;
-                        case 2:
-                            toolbar.setTitle(R.string.textTitle_main_settings);
-                            break;
-                    }
+                switch (position) {
+                    case 0:
+                        toolbar.setTitle(R.string.textTitle_main_quiz);
+                        break;
+                    case 1:
+                        toolbar.setTitle(R.string.textTitle_main_history);
+                        break;
+                    case 2:
+                        toolbar.setTitle(R.string.textTitle_main_settings);
+                        break;
                 }
             }
 

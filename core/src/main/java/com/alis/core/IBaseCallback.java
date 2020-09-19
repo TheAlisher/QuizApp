@@ -1,4 +1,4 @@
-package com.example.quiz.core;
+package com.alis.core;
 
 public interface IBaseCallback<T> {
 

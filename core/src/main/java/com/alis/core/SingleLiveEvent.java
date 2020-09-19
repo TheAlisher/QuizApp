@@ -1,4 +1,4 @@
-package com.example.quiz.core;
+package com.alis.core;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;

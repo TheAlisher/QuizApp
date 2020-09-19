@@ -59,7 +59,7 @@ public class QuizRepository implements IHistoryStorage, IQuizAPIClient {
     }
 
     @Override
-    public void getQuestions(int amount, String category, String difficulty, QuestionsCallback callback) {
+    public void getQuestions(int amount, int category, String difficulty, QuestionsCallback callback) {
         quizAPIClient.getQuestions(
                 amount,
                 category,

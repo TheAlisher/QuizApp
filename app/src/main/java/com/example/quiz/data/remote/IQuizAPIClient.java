@@ -1,6 +1,6 @@
 package com.example.quiz.data.remote;
 
-import com.example.quiz.core.IBaseCallback;
+import com.alis.core.IBaseCallback;
 import com.example.quiz.models.Question;
 
 import java.util.List;
@@ -9,7 +9,7 @@ public interface IQuizAPIClient {
 
     void getQuestions(
             int amount,
-            String category,
+            int category,
             String difficulty,
             QuestionsCallback callback);
 

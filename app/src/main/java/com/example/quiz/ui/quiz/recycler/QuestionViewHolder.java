@@ -1,5 +1,7 @@
 package com.example.quiz.ui.quiz.recycler;
 
+import android.text.Html;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +31,42 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.listener = listener;
         initializationViews(itemView);
+        buttonMultiplyAnswer1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(1);
+            }
+        });
+        buttonMultiplyAnswer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(2);
+            }
+        });
+        buttonMultiplyAnswer3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(3);
+            }
+        });
+        buttonMultiplyAnswer4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(4);
+            }
+        });
+        buttonBooleanAnswer1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(1);
+            }
+        });
+        buttonBooleanAnswer2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                answerClick(2);
+            }
+        });
     }
 
     private void initializationViews(View itemView) {
@@ -44,17 +82,17 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void onBind(Question question) {
-        textQuestion.setText(question.getQuestion());
+        textQuestion.setText(Html.fromHtml(question.getQuestion()));
         if (question.getType().equals("multiple")) {
             multipleVisibility();
-            buttonMultiplyAnswer1.setText(question.getAnswers().get(0));
-            buttonMultiplyAnswer2.setText(question.getAnswers().get(1));
-            buttonMultiplyAnswer3.setText(question.getAnswers().get(2));
-            buttonMultiplyAnswer4.setText(question.getAnswers().get(3));
+            buttonMultiplyAnswer1.setText(Html.fromHtml(question.getAnswers().get(0)));
+            buttonMultiplyAnswer2.setText(Html.fromHtml(question.getAnswers().get(1)));
+            buttonMultiplyAnswer3.setText(Html.fromHtml(question.getAnswers().get(2)));
+            buttonMultiplyAnswer4.setText(Html.fromHtml(question.getAnswers().get(3)));
         } else if (question.getType().equals("boolean")) {
             booleanVisibility();
-            buttonBooleanAnswer1.setText(question.getAnswers().get(0));
-            buttonBooleanAnswer2.setText(question.getAnswers().get(1));
+            buttonBooleanAnswer1.setText(Html.fromHtml(question.getAnswers().get(0)));
+            buttonBooleanAnswer2.setText(Html.fromHtml(question.getAnswers().get(1)));
         }
     }
 
@@ -66,6 +104,10 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     private void booleanVisibility() {
         linearMultiple.setVisibility(View.GONE);
         linearBoolean.setVisibility(View.VISIBLE);
+    }
+
+    private void answerClick(int selectAnswerPosition) {
+        listener.onAnswerClick(getAdapterPosition(), selectAnswerPosition);
     }
 
     public interface Listener {

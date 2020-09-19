@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class MainFragment extends Fragment {
     private Button buttonStart;
 
     private int sliderAmountSelectedValue = 1;
-    private String spinnerCategorySelectedValue = null;
+    private int spinnerCategorySelectedValue = 0    ;
     private String spinnerDifficultySelectedValue = null;
 
     public static MainFragment newInstance() {
@@ -109,7 +110,8 @@ public class MainFragment extends Fragment {
         spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                spinnerCategorySelectedValue = adapterView.getItemAtPosition(i).toString();
+                spinnerCategorySelectedValue = adapterView.getSelectedItemPosition();
+                spinnerCategorySelectedValue += 8;
             }
 
             @Override
@@ -134,6 +136,7 @@ public class MainFragment extends Fragment {
     }
 
     private void mainStartClick() {
+        Log.d("anime", spinnerCategorySelectedValue + "");
         QuizActivity.start(getContext(), sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
     }
 }

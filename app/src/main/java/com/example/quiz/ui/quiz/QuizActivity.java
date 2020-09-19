@@ -1,6 +1,8 @@
 package com.example.quiz.ui.quiz;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,11 +13,12 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.quiz.R;
 import com.example.quiz.models.Question;
@@ -25,6 +28,7 @@ import com.example.quiz.ui.result.ResultActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class QuizActivity extends AppCompatActivity implements QuestionViewHolder.Listener {
 
@@ -32,7 +36,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     public static final String EXTRA_SPINNER_CATEGORY_VALUES = "spinner_category_value";
     public static final String EXTRA_SPINNER_DIFFICULTY_VALUES = "spinner_difficulty_value";
 
-    public static void start(Context context, int amount, String category, String difficulty) {
+    public static void start(Context context, int amount, int category, String difficulty) {
         Intent intent = new Intent(context, QuizActivity.class);
         intent.putExtra(EXTRA_SLIDER_VALUES, amount);
         intent.putExtra(EXTRA_SPINNER_CATEGORY_VALUES, category);
@@ -43,11 +47,15 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     private QuizViewModel mViewModel;
 
     private int sliderAmountSelectedValue;
-    private String spinnerCategorySelectedValue;
+    private int spinnerCategorySelectedValue;
     private String spinnerDifficultySelectedValue;
 
+    private ProgressBar progressBarStages;
     private Button buttonSkip;
     private ProgressBar progressBarLoading;
+    private TextView textPassedStages;
+    private TextView textQuestions;
+    private Toolbar toolbar;
 
     private RecyclerView recyclerView;
     private QuestionAdapter adapter;
@@ -60,6 +68,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
 
         mViewModel = ViewModelProviders.of(this).get(QuizViewModel.class);
 
+        setToolbar();
         initializationViews();
         getValues();
         getQuestion();
@@ -74,9 +83,29 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         });
     }
 
+    private void setToolbar() {
+        toolbar = findViewById(R.id.toolbar_quiz);
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle("");
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mViewModel.onBackPressed();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void initializationViews() {
+        progressBarStages = findViewById(R.id.progress_quiz_stages);
         buttonSkip = findViewById(R.id.button_quiz_skip);
         progressBarLoading = findViewById(R.id.progressBar_loading);
+        textPassedStages = findViewById(R.id.text_quiz_passed_stages);
+        textQuestions = findViewById(R.id.text_quiz_questions);
     }
 
     private void createRecycler() {
@@ -100,17 +129,16 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     @Override
     public void onAnswerClick(int position, int selectAnswerPosition) {
         mViewModel.onAnswerClick(position, selectAnswerPosition);
-        mViewModel.getAnswers(position);
     }
 
     private void getValues() {
         if (getIntent() != null) {
             sliderAmountSelectedValue = getIntent().getIntExtra(EXTRA_SLIDER_VALUES, 1);
-            spinnerCategorySelectedValue = getIntent().getStringExtra(EXTRA_SPINNER_CATEGORY_VALUES);
+            spinnerCategorySelectedValue = getIntent().getIntExtra(EXTRA_SPINNER_CATEGORY_VALUES, 0);
             spinnerDifficultySelectedValue = getIntent().getStringExtra(EXTRA_SPINNER_DIFFICULTY_VALUES);
 
-            if (spinnerCategorySelectedValue.equals("Any Category")) {
-                spinnerCategorySelectedValue = null;
+            if (spinnerCategorySelectedValue == 8) {
+                spinnerCategorySelectedValue = 0;
             }
             if (spinnerDifficultySelectedValue.equals("Any Difficulty")) {
                 spinnerDifficultySelectedValue = null;
@@ -119,22 +147,37 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
     }
 
     private void getQuestion() {
-        mViewModel.isLoading.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if (aBoolean) {
-                    progressBarLoading.setVisibility(View.VISIBLE);
-                } else {
-                    progressBarLoading.setVisibility(View.GONE);
-                }
-            }
-        });
+        loading();
         mViewModel.init(sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
         mViewModel.questions.observe(this, new Observer<List<Question>>() {
             @Override
             public void onChanged(List<Question> questions) {
                 adapter.setQuestions(questions);
-                mViewModel.getAnswers(0);
+                textQuestions.setText("/" + questions.size());
+                Objects.requireNonNull(getSupportActionBar()).setTitle(questions.get(0).getCategory());
+            }
+        });
+    }
+
+    private void loading() {
+        mViewModel.isLoading.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                    toolbar.setVisibility(View.GONE);
+                    progressBarStages.setVisibility(View.GONE);
+                    textPassedStages.setVisibility(View.GONE);
+                    textQuestions.setVisibility(View.GONE);
+                    buttonSkip.setVisibility(View.GONE);
+                    progressBarLoading.setVisibility(View.VISIBLE);
+                } else {
+                    toolbar.setVisibility(View.VISIBLE);
+                    progressBarStages.setVisibility(View.VISIBLE);
+                    textPassedStages.setVisibility(View.VISIBLE);
+                    textQuestions.setVisibility(View.VISIBLE);
+                    buttonSkip.setVisibility(View.VISIBLE);
+                    progressBarLoading.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -144,6 +187,9 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
             @Override
             public void onChanged(Integer integer) {
                 recyclerView.smoothScrollToPosition(integer);
+                integer += 1;
+                textPassedStages.setText(integer.toString());
+                progressBarStages.setProgress(integer);
             }
         });
     }
@@ -152,7 +198,8 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         mViewModel.finish.observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                startActivity(new Intent(getBaseContext(), ResultActivity.class));
+                startActivity(new Intent(QuizActivity.this, ResultActivity.class));
+                finish();
             }
         });
     }

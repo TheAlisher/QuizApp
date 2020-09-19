@@ -4,11 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.quiz.QuizApp;
-import com.example.quiz.core.SingleLiveEvent;
 import com.example.quiz.data.remote.IQuizAPIClient;
 import com.example.quiz.models.Question;
 
-import java.util.Collections;
 import java.util.List;
 
 public class QuizViewModel extends ViewModel {
@@ -18,11 +16,9 @@ public class QuizViewModel extends ViewModel {
     MutableLiveData<Boolean> finish = new MutableLiveData<>();
     MutableLiveData<Boolean> isLoading = new MutableLiveData<>();
 
-    private IQuizAPIClient quizAPIClient = QuizApp.quizAPIClient;
     private List<Question> mQuestions;
-    private List<String> mAnswers;
 
-    void init(int amount, String category, String difficulty) {
+    void init(int amount, int category, String difficulty) {
         isLoading.setValue(true);
         QuizApp.repository.getQuestions(
                 amount,
@@ -56,13 +52,6 @@ public class QuizViewModel extends ViewModel {
         }
     }
 
-    public void getAnswers(int position) {
-        mAnswers = mQuestions.get(position).getIncorrectAnswers();
-        mAnswers.add(mQuestions.get(position).getCorrectAnswers());
-        Collections.shuffle(mAnswers);
-        mQuestions.get(position).setAnswers(mAnswers);
-    }
-
     private void nextQuestion() {
         currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
     }
@@ -76,6 +65,8 @@ public class QuizViewModel extends ViewModel {
     }
 
     void onBackPressed() {
-
+        if (currentQuestionPosition.getValue() != null && currentQuestionPosition.getValue() > 0) {
+            currentQuestionPosition.setValue(currentQuestionPosition.getValue() - 1);
+        }
     }
 }

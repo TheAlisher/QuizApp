@@ -24,7 +24,7 @@ public class QuizAPIClient implements IQuizAPIClient {
     @Override
     public void getQuestions(
             int amount,
-            String category,
+            int category,
             String difficulty,
             QuestionsCallback callback
     ) {
@@ -61,7 +61,7 @@ public class QuizAPIClient implements IQuizAPIClient {
         @GET("api.php")
         Call<QuizResponse> getQuestion(
                 @Query("amount") int amount,
-                @Query("category") String category,
+                @Query("category") int category,
                 @Query("difficulty") String difficulty
         );
     }
