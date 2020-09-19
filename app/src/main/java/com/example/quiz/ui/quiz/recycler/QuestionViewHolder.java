@@ -2,6 +2,7 @@ package com.example.quiz.ui.quiz.recycler;
 
 import android.os.Handler;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.models.Question;
 import com.google.android.material.button.MaterialButton;
@@ -113,9 +115,11 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void answerClick(int selectAnswerPosition) {
+        QuizApp.preferences.setQuestionCategory(question.getCategory());
         setScheduleColor(selectAnswerPosition);
         Timer timer = new Timer();
         if (question.getAnswers().get(selectAnswerPosition).equals(question.getCorrectAnswers())) {
+            saveCorrectAnswers();
             setRightColor(timer, selectAnswerPosition);
         } else {
             setWrongColor(timer, selectAnswerPosition);
@@ -223,6 +227,11 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         setButtonColors(buttonMultiplyAnswer4, R.color.Schedule, R.color.White, R.color.Schedule);
         setButtonColors(buttonBooleanAnswer1, R.color.Schedule, R.color.White, R.color.Schedule);
         setButtonColors(buttonBooleanAnswer2, R.color.Schedule, R.color.White, R.color.Schedule);
+    }
+
+    private void saveCorrectAnswers() {
+        int correctAnswers = QuizApp.preferences.questionCorrectAnswers() + 1;
+        QuizApp.preferences.setQuestionCorrectAnswers(correctAnswers);
     }
 
     public interface Listener {

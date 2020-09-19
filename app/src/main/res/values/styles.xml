@@ -25,13 +25,13 @@
     <!-- | list_history_item-->
     <style name="TextHistoryCategory">
         <item name="android:textColor">@color/VeryDarkDesaturatedBlue</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextHistoryCorrectAnswersAndDifficulty">
         <item name="android:textColor">@color/Gray</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!--SettingsFragment-->

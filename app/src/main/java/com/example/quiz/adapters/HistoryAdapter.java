@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.quiz.R;
 import com.example.quiz.interfaces.OnItemClickListener;
-import com.example.quiz.models.History;
+import com.example.quiz.models.QuizResult;
 
 import java.util.ArrayList;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
 
-    private ArrayList<History> list;
+    private ArrayList<QuizResult> list;
     private OnItemClickListener onItemClickListener;
 
-    public HistoryAdapter(ArrayList<History> list) {
+    public HistoryAdapter(ArrayList<QuizResult> list) {
         this.list = list;
     }
 
@@ -72,11 +72,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             textTime = itemView.findViewById(R.id.text_history_time);
         }
 
-        public void onBind(History result) {
-            textCategory.setText(result.getCategory());
-            textCorrectAnswers.setText(result.getCorrectAnswers());
-            textDifficulty.setText(result.getDifficulty());
-            textTime.setText(result.getTime());
+        public void onBind(QuizResult quizResult) {
+            textCategory.setText(quizResult.getCategory());
+            textCorrectAnswers.setText(String.valueOf(quizResult.getCorrectAnswers()));
+            textDifficulty.setText(quizResult.getDifficulty() + "/" + quizResult.getQuestions());
+            textTime.setText(quizResult.getCreatedAt().toString());
         }
     }
 }

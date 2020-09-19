@@ -40,7 +40,6 @@ public class SettingsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(SettingsViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
@@ -64,7 +63,7 @@ public class SettingsFragment extends Fragment {
     }
 
     private void clickClearHistory() {
-        QuizApp.repository.deleteAll();
-        Toast.makeText(getContext(), "История очищена", Toast.LENGTH_SHORT).show();
+        QuizApp.quizDatabase.quizDao().deleteAll();
+        Toast.makeText(getContext(), "History cleared", Toast.LENGTH_SHORT).show();
     }
 }

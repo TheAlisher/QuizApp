@@ -24,4 +24,7 @@ public interface QuizDao {
 
     @Query("SELECT * FROM quizResult")
     LiveData<List<QuizResult>> getAll();
+
+    @Query("DELETE FROM quizresult")
+    void deleteAll();
 }

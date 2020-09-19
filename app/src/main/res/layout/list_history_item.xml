@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="140dp"
         android:padding="10dp">
 
         <LinearLayout
@@ -55,7 +55,8 @@
                     android:id="@+id/text_history_correct_answers"
                     style="@style/TextHistoryCorrectAnswersAndDifficulty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp" />
 
 
             </LinearLayout>
@@ -68,14 +69,15 @@
                 <TextView
                     style="@style/TextHistoryCorrectAnswersAndDifficulty"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_history_difficulty" />
 
                 <TextView
                     android:id="@+id/text_history_difficulty"
                     style="@style/TextHistoryCorrectAnswersAndDifficulty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_history_difficulty" />
+                    android:layout_marginStart="5dp" />
 
 
             </LinearLayout>
@@ -84,8 +86,8 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="20dp"
+            android:layout_width="20dp"
+            android:layout_height="10dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/contentDescription_history_icon_menu_three_dots_horizontal"
             android:src="@drawable/icon_menu_three_dots_horizontal"
@@ -96,9 +98,9 @@
             android:id="@+id/text_history_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
             android:textColor="@color/Gray"
-            android:textSize="16sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 

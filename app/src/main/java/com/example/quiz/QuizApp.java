@@ -8,6 +8,7 @@ import androidx.room.InvalidationTracker;
 import androidx.room.Room;
 import androidx.sqlite.db.SupportSQLiteOpenHelper;
 
+import com.example.quiz.data.AppPreferences;
 import com.example.quiz.data.QuizRepository;
 import com.example.quiz.data.remote.IHistoryStorage;
 import com.example.quiz.data.remote.IQuizAPIClient;
@@ -23,6 +24,7 @@ public class QuizApp extends Application {
     public static QuizDatabase quizDatabase;
 
     public static QuizRepository repository;
+    public static AppPreferences preferences;
 
     @Override
     public void onCreate() {
@@ -40,5 +42,7 @@ public class QuizApp extends Application {
                 .build();
 
         repository = new QuizRepository(quizAPIClient, historyStorage, quizDatabase.quizDao());
+        preferences = new AppPreferences(this);
+
     }
 }

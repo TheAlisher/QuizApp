@@ -1,5 +1,6 @@
 package com.example.quiz.ui.history;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -18,14 +19,15 @@ import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.adapters.HistoryAdapter;
 import com.example.quiz.interfaces.OnItemClickListener;
-import com.example.quiz.models.History;
+import com.example.quiz.models.QuizResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HistoryFragment extends Fragment {
 
-    private HistoryAdapter historyAdapter;
-    private ArrayList<History> list = new ArrayList<>();
+    private HistoryAdapter adapter;
+    private ArrayList<QuizResult> list = new ArrayList<>();
 
     private HistoryViewModel mViewModel;
 
@@ -51,7 +53,7 @@ public class HistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         createHistoryRecycler(view);
-        historyAdapter.setOnItemClickListener(new OnItemClickListener() {
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onHistoryItemLongClick(int position) {
                 longClickOnItem(position);
@@ -62,8 +64,20 @@ public class HistoryFragment extends Fragment {
     private void createHistoryRecycler(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_history);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        historyAdapter = new HistoryAdapter(list);
-        recyclerView.setAdapter(historyAdapter);
+        adapter = new HistoryAdapter(list);
+        recyclerView.setAdapter(adapter);
+        loadData();
+    }
+
+    private void loadData() {
+        QuizApp.quizDatabase.quizDao().getAll().observe(getViewLifecycleOwner(), new Observer<List<QuizResult>>() {
+            @Override
+            public void onChanged(List<QuizResult> quizResults) {
+                list.clear();
+                list.addAll(quizResults);
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void longClickOnItem(int position) {

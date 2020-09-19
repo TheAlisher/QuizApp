@@ -3,14 +3,12 @@ package com.example.quiz.ui.main;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.ui.quiz.QuizActivity;
 import com.google.android.material.slider.Slider;
@@ -126,6 +125,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 spinnerDifficultySelectedValue = adapterView.getItemAtPosition(i).toString();
+                QuizApp.preferences.setQuestionDifficulty(spinnerDifficultySelectedValue);
             }
 
             @Override
@@ -136,7 +136,7 @@ public class MainFragment extends Fragment {
     }
 
     private void mainStartClick() {
-        Log.d("anime", spinnerCategorySelectedValue + "");
+        QuizApp.preferences.setQuestionCorrectAnswers(0);
         QuizActivity.start(getContext(), sliderAmountSelectedValue, spinnerCategorySelectedValue, spinnerDifficultySelectedValue);
     }
 }

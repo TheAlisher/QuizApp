@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.quiz.QuizApp;
 import com.example.quiz.R;
 import com.example.quiz.models.Question;
 import com.example.quiz.ui.quiz.recycler.QuestionAdapter;
@@ -167,6 +168,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
                 adapter.setQuestions(questions);
                 textQuestions.setText("/" + questions.size());
                 Objects.requireNonNull(getSupportActionBar()).setTitle(questions.get(0).getCategory());
+                QuizApp.preferences.setQuestionSize(questions.size());
             }
         });
     }
