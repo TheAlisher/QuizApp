@@ -74,8 +74,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
 
         public void onBind(QuizResult quizResult) {
             textCategory.setText(quizResult.getCategory());
-            textCorrectAnswers.setText(String.valueOf(quizResult.getCorrectAnswers()));
-            textDifficulty.setText(quizResult.getDifficulty() + "/" + quizResult.getQuestions());
+            textCorrectAnswers.setText(String.valueOf(quizResult.getCorrectAnswers()) + "/" + quizResult.getQuestions());
+            textDifficulty.setText(quizResult.getDifficulty());
             textTime.setText(quizResult.getCreatedAt().toString());
         }
     }

@@ -53,16 +53,12 @@ public class QuizViewModel extends ViewModel {
         }
     }
 
-    private void nextQuestion() {
-        currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
-    }
-
-    void startResult() {
-        startResult.setValue(true);
-    }
-
-    void onSkipClick() {
-        nextQuestion();
+    void onSkipClick(int listSize) {
+        if (currentQuestionPosition.getValue() == listSize - 1) {
+            startResult();
+        }else {
+            nextQuestion();
+        }
     }
 
     void onBackPressed() {
@@ -71,6 +67,14 @@ public class QuizViewModel extends ViewModel {
         } else {
             finishQuiz();
         }
+    }
+
+    private void nextQuestion() {
+        currentQuestionPosition.setValue(currentQuestionPosition.getValue() + 1);
+    }
+
+    void startResult() {
+        startResult.setValue(true);
     }
 
     void finishQuiz() {

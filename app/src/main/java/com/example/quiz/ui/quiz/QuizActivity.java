@@ -80,7 +80,7 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
         buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mViewModel.onSkipClick();
+                mViewModel.onSkipClick(list.size());
             }
         });
     }

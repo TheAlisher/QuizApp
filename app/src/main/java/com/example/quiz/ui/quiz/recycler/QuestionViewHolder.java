@@ -125,8 +125,6 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
             setWrongColor(timer, selectAnswerPosition);
         }
         startNextItem(selectAnswerPosition);
-        /*setEnabledFalse();
-        setDefaultColor();*/
     }
 
     private void setButtonColors(MaterialButton materialButton, int strokeColor, int backgroundColor, int textColor) {
@@ -175,7 +173,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
                         break;
                 }
             }
-        }, 500);
+        }, 300);
     }
 
     private void setWrongColor(Timer timer, int selectAnswerPosition) {
@@ -199,7 +197,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
                         break;
                 }
             }
-        }, 500);
+        }, 300);
     }
 
     private void startNextItem(int selectAnswerPosition) {
@@ -208,7 +206,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
             public void run() {
                 listener.onAnswerClick(getAdapterPosition(), selectAnswerPosition);
             }
-        }, 1000);
+        }, 600);
     }
 
     private void setEnabledFalse() {
