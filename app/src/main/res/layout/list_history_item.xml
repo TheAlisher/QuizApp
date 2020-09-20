@@ -89,10 +89,11 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="20dp"
-            android:layout_height="10dp"
-            android:layout_margin="10dp"
+            android:id="@+id/image_history_more"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
             android:contentDescription="@string/contentDescription_history_icon_menu_three_dots_horizontal"
+            android:padding="12dp"
             android:src="@drawable/icon_menu_three_dots_horizontal"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

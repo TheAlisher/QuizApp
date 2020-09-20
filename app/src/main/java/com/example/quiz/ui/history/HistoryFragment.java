@@ -53,12 +53,6 @@ public class HistoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         createHistoryRecycler(view);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onHistoryItemLongClick(int position) {
-                longClickOnItem(position);
-            }
-        });
     }
 
     private void createHistoryRecycler(View view) {
@@ -78,9 +72,5 @@ public class HistoryFragment extends Fragment {
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private void longClickOnItem(int position) {
-        QuizApp.repository.delete(position);
     }
 }
