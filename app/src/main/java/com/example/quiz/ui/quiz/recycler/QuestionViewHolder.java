@@ -122,6 +122,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         } else {
             setWrongColor(selectAnswerPosition);
         }
+        setEnabledFalse();
         startNextItem(selectAnswerPosition);
     }
 

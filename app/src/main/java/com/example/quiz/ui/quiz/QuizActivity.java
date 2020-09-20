@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.SnapHelper;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -137,6 +138,8 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
 
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.getRecycledViewPool().setMaxRecycledViews(list.size(), 0);
     }
 
     @Override
