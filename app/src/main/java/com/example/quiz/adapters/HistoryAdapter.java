@@ -13,7 +13,9 @@ import com.example.quiz.R;
 import com.example.quiz.interfaces.OnItemClickListener;
 import com.example.quiz.models.QuizResult;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
 
@@ -76,7 +78,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
             textCategory.setText(quizResult.getCategory());
             textCorrectAnswers.setText(String.valueOf(quizResult.getCorrectAnswers()) + "/" + quizResult.getQuestions());
             textDifficulty.setText(quizResult.getDifficulty());
-            textTime.setText(quizResult.getCreatedAt().toString());
+            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy hh:mm", Locale.ENGLISH);
+            textTime.setText(formatter.format(quizResult.getCreatedAt()));
         }
     }
 }
