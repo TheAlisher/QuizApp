@@ -115,14 +115,12 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void answerClick(int selectAnswerPosition) {
-        QuizApp.preferences.setQuestionCategory(question.getCategory());
         setScheduleColor(selectAnswerPosition);
-        Timer timer = new Timer();
         if (question.getAnswers().get(selectAnswerPosition).equals(question.getCorrectAnswers())) {
             saveCorrectAnswers();
-            setRightColor(timer, selectAnswerPosition);
+            setRightColor(selectAnswerPosition);
         } else {
-            setWrongColor(timer, selectAnswerPosition);
+            setWrongColor(selectAnswerPosition);
         }
         startNextItem(selectAnswerPosition);
     }
@@ -152,8 +150,8 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    private void setRightColor(Timer timer, int selectAnswerPosition) {
-        timer.schedule(new TimerTask() {
+    private void setRightColor(int selectAnswerPosition) {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 switch (selectAnswerPosition) {
@@ -176,8 +174,8 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder {
         }, 300);
     }
 
-    private void setWrongColor(Timer timer, int selectAnswerPosition) {
-        timer.schedule(new TimerTask() {
+    private void setWrongColor(int selectAnswerPosition) {
+        new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 switch (selectAnswerPosition) {

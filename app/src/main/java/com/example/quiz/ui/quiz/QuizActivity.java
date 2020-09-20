@@ -167,7 +167,9 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
             public void onChanged(List<Question> questions) {
                 adapter.setQuestions(questions);
                 textQuestions.setText("/" + questions.size());
+
                 Objects.requireNonNull(getSupportActionBar()).setTitle(questions.get(0).getCategory());
+                QuizApp.preferences.setQuestionCategory(questions.get(0).getCategory());
                 QuizApp.preferences.setQuestionSize(questions.size());
             }
         });
@@ -203,7 +205,8 @@ public class QuizActivity extends AppCompatActivity implements QuestionViewHolde
                 recyclerView.smoothScrollToPosition(integer);
                 integer += 1;
                 textPassedStages.setText(integer.toString());
-                progressBarStages.setProgress(integer);
+                int progress = (int) ((float) integer / (float) QuizApp.preferences.questionsSize() * 50);
+                progressBarStages.setProgress(progress);
             }
         });
     }
